@@ -1,31 +1,54 @@
-function generateInvitation(){
+// script.js
 
-let groom=document.getElementById("groom").value;
+// Smooth scroll effect for internal links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener("click", function(e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute("href")).scrollIntoView({
+      behavior: "smooth"
+    });
+  });
+});
 
-let file=document.getElementById("photo").files[0];
+// Simple fade-in animation when sections enter viewport
+const sections = document.querySelectorAll("section");
 
-if(groom=="" || !file){
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("fade-in");
+    }
+  });
+}, { threshold: 0.2 });
 
-alert("Please enter the groom's name and upload a photo.");
+sections.forEach(section => {
+  observer.observe(section);
+});
 
-return;
+// Confetti effect when page loads
+function launchConfetti() {
+  const duration = 3 * 1000;
+  const end = Date.now() + duration;
 
+  (function frame() {
+    confetti({
+      particleCount: 5,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 }
+    });
+    confetti({
+      particleCount: 5,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 }
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
 }
 
-let reader=new FileReader();
-
-reader.onload=function(e){
-
-document.getElementById("preview").src=e.target.result;
-
-document.getElementById("groomName").innerHTML=groom;
-
-document.getElementById("page1").style.display="none";
-
-document.getElementById("page2").style.display="block";
-
-}
-
-reader.readAsDataURL(file);
-
-}
+// Trigger confetti on load
+window.onload = launchConfetti;
