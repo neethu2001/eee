@@ -1,5 +1,3 @@
-// script.js
-
 // Smooth scroll effect for internal links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener("click", function(e) {
@@ -10,7 +8,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// Simple fade-in animation when sections enter viewport
+// Fade-in animation when sections enter viewport
 const sections = document.querySelectorAll("section");
 
 const observer = new IntersectionObserver(entries => {
@@ -21,34 +19,49 @@ const observer = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.2 });
 
-sections.forEach(section => {
-  observer.observe(section);
-});
+sections.forEach(section => observer.observe(section));
 
-// Confetti effect when page loads
+// Simple confetti effect using canvas
 function launchConfetti() {
-  const duration = 3 * 1000;
-  const end = Date.now() + duration;
+  const canvas = document.createElement("canvas");
+  document.body.appendChild(canvas);
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const ctx = canvas.getContext("2d");
 
-  (function frame() {
-    confetti({
-      particleCount: 5,
-      angle: 60,
-      spread: 55,
-      origin: { x: 0 }
+  let particles = [];
+  for (let i = 0; i < 100; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 6 + 2,
+      d: Math.random() * 100,
+      color: `hsl(${Math.random() * 360}, 100%, 50%)`
     });
-    confetti({
-      particleCount: 5,
-      angle: 120,
-      spread: 55,
-      origin: { x: 1 }
-    });
+  }
 
-    if (Date.now() < end) {
-      requestAnimationFrame(frame);
-    }
-  })();
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, false);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+    });
+    update();
+  }
+
+  function update() {
+    particles.forEach(p => {
+      p.y += Math.cos(p.d) + 1 + p.r / 2;
+      if (p.y > canvas.height) {
+        p.x = Math.random() * canvas.width;
+        p.y = -10;
+      }
+    });
+  }
+
+  setInterval(draw, 30);
 }
 
-// Trigger confetti on load
 window.onload = launchConfetti;
