@@ -1,11 +1,5 @@
-/* style.css */
-
 /* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   font-family: 'Georgia', serif;
@@ -21,29 +15,17 @@ header {
   color: #fff;
   padding: 20px;
   text-align: center;
+  animation: fadeInDown 2s ease;
 }
 
-header h1 {
-  font-size: 2.5em;
-  letter-spacing: 2px;
-}
+header h1 { font-size: 2.5em; letter-spacing: 2px; }
 
 /* Hero Section */
 .hero {
-  position: relative;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.hero .background {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
-  opacity: 0.7;
 }
 
 .hero .overlay {
@@ -51,19 +33,10 @@ header h1 {
   padding: 40px;
   border-radius: 15px;
   text-align: center;
+  animation: zoomIn 2s ease;
 }
 
-.hero h2 {
-  font-size: 2em;
-  margin: 10px 0;
-}
-
-.hero .date {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-top: 20px;
-  color: #b22222;
-}
+.hero h2, .hero .date { margin: 10px 0; }
 
 /* Gallery */
 .gallery {
@@ -74,24 +47,57 @@ header h1 {
 .gallery h3 {
   font-size: 2em;
   margin-bottom: 20px;
+  animation: fadeInUp 2s ease;
 }
 
-.gallery .images {
+.shapes {
   display: flex;
   justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
+  gap: 50px;
 }
 
-.gallery img {
-  width: 150px;
-  height: auto;
-  transition: transform 0.3s ease;
+/* Decorative shapes */
+.flower {
+  width: 80px; height: 80px;
+  background: pink;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
 }
 
-.gallery img:hover {
-  transform: scale(1.2);
+.ring {
+  width: 80px; height: 80px;
+  border: 8px solid gold;
+  border-radius: 50%;
+  animation: spin 6s linear infinite;
 }
+
+.heart {
+  width: 80px; height: 70px;
+  position: relative;
+  background: red;
+  transform: rotate(-45deg);
+  animation: bounce 2s infinite;
+}
+.heart::before, .heart::after {
+  content: "";
+  width: 80px; height: 70px;
+  position: absolute;
+  background: red;
+  border-radius: 50%;
+}
+.heart::before { top: -40px; left: 0; }
+.heart::after { left: 40px; top: 0; }
+
+/* Animations */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) rotate(-45deg); }
+  50% { transform: translateY(-20px) rotate(-45deg); }
+}
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 /* Music Section */
 .music {
@@ -100,10 +106,7 @@ header h1 {
   background: #fffaf0;
 }
 
-.music h3 {
-  font-size: 1.8em;
-  margin-bottom: 15px;
-}
+.music h3 { font-size: 1.8em; margin-bottom: 15px; animation: fadeInDown 2s ease; }
 
 /* Footer */
 footer {
@@ -112,4 +115,5 @@ footer {
   text-align: center;
   padding: 20px;
   font-style: italic;
+  animation: fadeInUp 2s ease;
 }
